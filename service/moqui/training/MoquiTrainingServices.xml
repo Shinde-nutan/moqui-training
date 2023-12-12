@@ -1,3 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<service-call name="create#moqui.training.MoquiTraining" in-map="context" out-map="context"/>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+<!--new entity-auto service for creating records in the MoquiTraining entity-->
+    <service verb="create" noun="MoquiTraining" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="moqui.training.MoquiTraining"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId"/>
+        </out-parameters>
+    </service>
+<!--Implement a service with default type to create records for the entity-->
+    <service verb="create" noun="DefaultTraining">
+        <in-parameters >
+            <auto-parameters entity-name="moqui.training.MoquiTraining"/>
+            <parameter name="trainingId"/>
+            <parameter name="trainingName"/>
+            <parameter name="trainingDate"/>
+            <parameter name="trainingPrice" type="Integer"/>
+            <parameter name="trainingDuration" type="Integer"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#moqui.training.MoquiTraining" in-map="context" out-map="context"/>
+        </actions>
+    </service>
+</services>
