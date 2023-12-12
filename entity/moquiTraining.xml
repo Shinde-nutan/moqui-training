@@ -6,6 +6,6 @@
         <field name="trainingName" type="text-medium"/>
         <field name="trainingDate" type="date-time"/>
         <field name="trainingPrice" type="currency-amount"/>
-        <field name="trainingDuration" type="time"/>
+        <field name="trainingDuration" type="number-integer"/>
     </entity>
 </entities>
