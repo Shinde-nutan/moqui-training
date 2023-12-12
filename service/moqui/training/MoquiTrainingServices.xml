@@ -28,23 +28,14 @@
         </actions>
     </service>
 <!--Implement a service with implementation logic in a groovy script to create data.-->
-    <service verb="create" noun="MoquiTrainingGroovy">
-
+    <service verb="create" noun="MoquiTrainingGroovy" type="script"
+             location="component://moqui-training/service/moqui/training/Training.groovy">
         <in-parameters>
-            <auto-parameters entity-name="moqui.training.MoquiTraining"/>
-            <parameter name="trainingId" required="true"/>
+            <auto-parameters entity-name="moqui.training.MoquiTraining" include="nonpk"/>
+            <!--<parameter name="trainingId" required="true"/>-->
         </in-parameters>
-
         <out-parameters>
             <parameter name="trainingId"/>
         </out-parameters>
-        <actions>
-            <script>
-                def training = ec.entity.makeValue("moqui.training.MoquiTraining")
-                training.setFields(context, true, null, null)
-                //training.setSequencedIdPrimary()
-                training.create()
-            </script>
-        </actions>
     </service>
 </services>
