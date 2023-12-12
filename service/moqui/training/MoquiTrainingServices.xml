@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<service-call name="create#moqui.training.MoquiTraining" in-map="context" out-map="context"/>
