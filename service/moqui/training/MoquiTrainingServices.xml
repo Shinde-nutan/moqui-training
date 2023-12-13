@@ -29,7 +29,7 @@
     </service>
 <!--Implement a service with implementation logic in a groovy script to create data.-->
     <service verb="create" noun="MoquiTrainingGroovy" type="script"
-             location="component://moqui-training/service/moqui/training/Training.groovy">
+             location="./component://moqui-training/service/moqui/training/Training.groovy">
         <in-parameters>
             <auto-parameters entity-name="moqui.training.MoquiTraining" include="nonpk"/>
             <!--<parameter name="trainingId" required="true"/>-->
@@ -37,5 +37,46 @@
         <out-parameters>
             <parameter name="trainingId"/>
         </out-parameters>
+    </service>
+<!--Create a new csv data file to input data from the service to add demo data for the new entity.-->
+    <service verb="create" noun="MoquiTrainingCSV" type="script">
+        <actions>
+            <script>
+<!--                ec.entity.makeDataLoader().dataTypes([‘demo’]).load()-->
+                recordedLoaded = ec.entity.makeDataLoader()
+                .csvEntityName("moqui.training.MoquiTraining")
+                .csvFieldNames(['trainingId', 'trainingName', 'trainingDate', 'trainingPrice',
+                'trainingDuration'])
+                .defaultValues(['001c','train','2022-10-10',900,6])
+                .load()
+            </script>
+            <message>Loaded ${recordsLoaded} moqui training records</message>
+        </actions>
+    </service>
+    
+    
+    
+    
+<!-- Assignment 4 -->
+    <service verb="get" noun="TrainingByIdName">
+        <description>
+            to find records based on the training name or training id.
+        </description>
+        <in-parameters>
+            <parameter name="trainingId"/>
+            <parameter name="trainingName"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingDetail"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="moqui.training.MoquiTraining" list="trainingDetail">
+                <econdition field-name="trainingId" value="${trainingId}" ignore-if-empty="true"/>
+                <econdition field-name="trainingName" value="${trainingName}" ignore-if-empty="true"/>
+                <select-field field-name="trainingId"/>
+                <select-field field-name="trainingName"/>
+                <select-field field-name="trainingDate"/>
+            </entity-find>
+        </actions>
     </service>
 </services>
