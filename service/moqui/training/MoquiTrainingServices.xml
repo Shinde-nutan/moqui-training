@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
 <!--new entity-auto service for creating records in the MoquiTraining entity-->
     <service verb="create" noun="MoquiTraining" type="entity-auto">
         <in-parameters>
@@ -39,18 +40,24 @@
         </out-parameters>
     </service>
 <!--Create a new csv data file to input data from the service to add demo data for the new entity.-->
-    <service verb="create" noun="MoquiTrainingCSV" type="script">
+    <service verb="create" noun="MoquiTrainingCSV">
+        <in-parameters>
+            <auto-parameters entity-name="moqui.training.MoquiTraining" include="all"/>
+        </in-parameters>
         <actions>
+<!--            <log message="=====Moqui traning===="/>-->
             <script>
-<!--                ec.entity.makeDataLoader().dataTypes([‘demo’]).load()-->
-                recordedLoaded = ec.entity.makeDataLoader()
-                .csvEntityName("moqui.training.MoquiTraining")
-                .csvFieldNames(['trainingId', 'trainingName', 'trainingDate', 'trainingPrice',
-                'trainingDuration'])
-                .defaultValues(['001c','train','2022-10-10',900,6])
-                .load()
+                ec.entity.makeDataLoader().dataTypes(['demo']).load()
+
+<!--                org.moqui.context.ExecutionContext ec = context.ec-->
+<!--                recordedLoaded = ec.entity.makeDataLoader().csvText()-->
+<!--                .csvEntityName("moqui.training.MoquiTraining")-->
+<!--                .csvFieldNames(['trainingId', 'trainingName', 'trainingDate', 'trainingPrice',-->
+<!--                'trainingDuration'])-->
+<!--                .defaultValues([trainingId:trainingId,trainingName:trainingName,trainingDate:trainingDate,trainingPrice:trainingPrice,trainingDuration:trainingDuration])-->
+<!--                .load()-->
             </script>
-            <message>Loaded ${recordsLoaded} moqui training records</message>
+<!--            <message>Loaded ${recordsLoaded} moqui training records</message>-->
         </actions>
     </service>
     
@@ -77,6 +84,31 @@
                 <select-field field-name="trainingName"/>
                 <select-field field-name="trainingDate"/>
             </entity-find>
+        </actions>
+    </service>
+    <service verb="create" noun="CreateUpdate">
+        <in-parameters>
+            <parameter name="trainingId"/>
+            <parameter name="trainingName" required="true" />
+            <parameter name="trainingDate" format="${yyyy-mm-dd}"/>
+            <parameter name="trainingPrice" type="Integer"/>
+            <parameter name="trainingDuration" type="Integer"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingID"/>
+        </out-parameters>
+        <actions>
+            <entity-find-one entity-name="moqui.training.MoquiTraining" value-field="moquiTraining">
+                <field-map field-name="trainingId"/>
+            </entity-find-one>
+            <if condition="moquiTraining != null" >
+                <then>
+                    <service-call name="update#moqui.training.MoquiTraining" in-map="context" out-map="context"/>
+                </then>
+                <else>
+                    <service-call name="create#moqui.training.MoquiTraining" in-map="context" out-map="context"/>
+                </else>
+            </if>
         </actions>
     </service>
 </services>
