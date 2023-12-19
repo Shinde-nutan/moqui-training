@@ -50,6 +50,9 @@
                 <select-field field-name="price"/>
                 <select-field field-name="priceUomId"/>
             </entity-find>
+            <if condition="!productList"><then>
+                <return error="true" message="Product does not exist"/>
+            </then></if>
         </actions>
     </service>
 </services>
