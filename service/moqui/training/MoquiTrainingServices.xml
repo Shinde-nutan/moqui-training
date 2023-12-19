@@ -30,7 +30,7 @@
     </service>
 <!--Implement a service with implementation logic in a groovy script to create data.-->
     <service verb="create" noun="MoquiTrainingGroovy" type="script"
-             location="./component://moqui-training/service/moqui/training/Training.groovy">
+             location="component://moqui-training/service/moqui/training/Training.groovy">
         <in-parameters>
             <auto-parameters entity-name="moqui.training.MoquiTraining" include="nonpk"/>
             <!--<parameter name="trainingId" required="true"/>-->
