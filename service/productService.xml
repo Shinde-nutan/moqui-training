@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <service verb="create" noun="Product" type="entity-auto">
+
+        <in-parameters>
+            <auto-parameters entity-name="mantle.product.Product" include="nonpk"/>
+            <parameter name="productName" type="String"/>
+            <parameter name="description" type="String"/>
+        </in-parameters>
+        <out-parameters>
+            <auto-parameters entity-name="mantle.product.Product"/>
+            <parameter name="productId"/>
+        </out-parameters>
+    </service>
+
+    <service verb="create" noun="ProductPrice" type="entity-auto">
+    <in-parameters>
+        <auto-parameters entity-name="mantle.product.ProductPrice"/>
+        <parameter name="price"/>
+        <parameter name="priceUomId"/>
+    </in-parameters>
+    <out-parameters>
+        <auto-parameters entity-name="mantle.product.ProductPrice" include="pk"/>
+        <parameter name="productId"/>
+    </out-parameters>
+    </service>
+
+    <service verb="create" noun="ProductDetail" type="inline">
+    <description>
+        Create a new product
+    </description>
+    <in-parameters>
+        <parameter name="productName" type="String"/>
+        <parameter name="description" type="String"/>
+        <parameter name="price" entity-name="mantle.product.ProductPrice" />
+        <parameter name="priceUomId" entity-name="mantle.product.ProductPrice" type="String" default="USD"/>
+    </in-parameters>
+    <out-parameters>
+        <parameter name="productId" entity-name="mantle.product.ProductPrice"/>
+    </out-parameters>
+    <actions>
+        <service-call name="productService.create#Product" in-map="context" out-map="context"/>
+        <service-call name="productService.create#ProductPrice" in-map="context" out-map="context"/>
+    </actions>
+    </service>
+</services>
+
+
+
+
