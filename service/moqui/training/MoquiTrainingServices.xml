@@ -111,4 +111,23 @@
             </if>
         </actions>
     </service>
+
+
+
+<!--    Assignment 6 -->
+    <service verb="get" noun="MoquiTraining">
+        <in-parameters>
+            <auto-parameters entity-name="moqui.training.MoquiTraining" include="pk"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="moquiTrainingList"/>
+        </out-parameters>
+        <actions>
+            <entity-find entity-name="moqui.training.MoquiTraining" list="moquiTrainingList">
+                <select-field field-name="trainingId"/>
+                <select-field field-name="trainingName"/>
+                <select-field field-name="trainingPrice"/>
+            </entity-find>
+        </actions>
+    </service>
 </services>

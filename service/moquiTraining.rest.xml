@@ -1,0 +1,21 @@
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
+          name="moqui" displayName="Moqui Training Actions API" version="">
+    <resource name="MoquiTraining" displayName="Moqui Training">
+        <method type="get"><entity name="moqui.training.MoquiTraining" operation="list"/></method>
+        <method type="delete"><entity name="moqui.training.MoquiTraining" operation="delete"/></method>
+        <id name="trainingId">
+            <method type="get"><entity name="MoquiTraining" operation="one"/></method>
+            <method type="patch"><service name="moqui.training.MoquiTrainingServices.create#CreateUpdate"/></method>
+        </id>
+        <resource name="Add">
+            <method type="post">
+                <entity name="moqui.training.MoquiTraining" operation="create"/>
+            </method>
+        </resource>
+        <resource name="MoquiTrainingName" displayName="Get Training List">
+            <method type="get">
+                <service name="moqui.training.MoquiTrainingServices.get#MoquiTraining"/>
+            </method>
+        </resource>
+    </resource>
+</resource>
