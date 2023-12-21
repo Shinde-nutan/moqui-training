@@ -112,8 +112,6 @@
         </actions>
     </service>
 
-
-
 <!--    Assignment 6 -->
     <service verb="get" noun="MoquiTraining">
         <in-parameters>
